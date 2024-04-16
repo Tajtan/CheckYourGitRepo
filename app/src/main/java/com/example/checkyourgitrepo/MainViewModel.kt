@@ -8,6 +8,8 @@ import kotlinx.coroutines.launch
 
 class MainViewModel: ViewModel() {
 
+    var username: String = "Tajtan"
+
     private val _reposState = mutableStateOf(ReposState())
     val reposState: State<ReposState> = _reposState
 
@@ -19,9 +21,9 @@ class MainViewModel: ViewModel() {
     private fun fetchRepos(){
         viewModelScope.launch {
             try {
-                val response = repoService.getRepos()
+                val response = repoService.getRepos(username)
                 _reposState.value = _reposState.value.copy(
-                    list = response.repos,
+                    list = response,
                     loading = false,
                     error = null
                 )
