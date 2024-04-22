@@ -10,7 +10,7 @@ import kotlinx.coroutines.launch
 
 class MainViewModel: ViewModel() {
 
-    var username: String = "Tajtan"
+    //var username: String = "Tajtan"
 
     private val _reposState = mutableStateOf(ReposState())
     val reposState: State<ReposState> = _reposState
@@ -19,26 +19,28 @@ class MainViewModel: ViewModel() {
     val languageState: State<LanguageState> = _languagesState
 
     init {
-        //fetchRepos()
-        fetchLanguages()
+        fetchRepos()
+        //fetchLanguages()
     }
 
 
     private fun fetchRepos(){
         viewModelScope.launch {
             try {
-                val response = repoService.getRepos(username)
+                val response = repoService.getRepos()
                 _reposState.value = _reposState.value.copy(
-                    list = response,
+                    list = response.filter { it.language != null },
                     loading = false,
                     error = null
                 )
+                Log.e("repoResponse", response.toString())
 
             }catch (e: Exception){
                 _reposState.value = _reposState.value.copy(
                     loading = false,
                     error = "Error fetching Repos: ${e.message}"
                 )
+                Log.e("repo error",e.toString())
             }
         }
     }
@@ -61,7 +63,7 @@ class MainViewModel: ViewModel() {
                     loading = false,
                     error = "Error fetching Repos: ${e.message}"
                 )
-                Log.e("repo error",e.toString())
+                Log.e("language error",e.toString())
             }
         }
     }

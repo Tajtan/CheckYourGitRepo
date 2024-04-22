@@ -17,11 +17,15 @@ private val retrofit = Retrofit
 val repoService = retrofit.create(ApiService::class.java)
 
 interface ApiService{
-
+/*
     @GET("users/{username}/repos")
     suspend fun getRepos(@Path("username") username: String): List<Repos>
 
-    @GET("repos/Tajtan/Codewars/languages")
+ */
+    @GET("users/andrzejsokolowski/repos")
+    suspend fun getRepos(): List<Repos>
+
+    @GET("repos/andrzejsokolowski/andrzejsokolowski/languages")
     suspend fun getLanguages(): Map<String, Int>
 
 }

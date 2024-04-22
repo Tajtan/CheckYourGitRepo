@@ -4,7 +4,7 @@ import com.google.gson.annotations.SerializedName
 
 data class Repos(
     val name: String,
-    val language: String
+    val language: String?
 )
 
 data class Language(
