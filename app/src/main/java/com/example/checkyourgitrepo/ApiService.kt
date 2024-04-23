@@ -22,10 +22,10 @@ interface ApiService{
     suspend fun getRepos(@Path("username") username: String): List<Repos>
 
  */
-    @GET("users/andrzejsokolowski/repos")
+    @GET("users/Tajtan/repos")
     suspend fun getRepos(): List<Repos>
 
-    @GET("repos/andrzejsokolowski/andrzejsokolowski/languages")
+    @GET("repos/Tajtan/Codewars/languages")
     suspend fun getLanguages(): Map<String, Int>
 
 }

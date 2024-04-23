@@ -18,9 +18,10 @@ class MainViewModel: ViewModel() {
     private val _languagesState = mutableStateOf(LanguageState())
     val languageState: State<LanguageState> = _languagesState
 
+
     init {
         fetchRepos()
-        //fetchLanguages()
+        fetchLanguages()
     }
 
 

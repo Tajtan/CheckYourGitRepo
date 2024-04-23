@@ -12,12 +12,14 @@ import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.items
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.KeyboardArrowRight
+import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.Icon
 import androidx.compose.material3.IconButton
 import androidx.compose.material3.Text
+import androidx.compose.material3.TextField
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.getValue
 import androidx.compose.ui.Alignment
@@ -25,11 +27,15 @@ import androidx.compose.ui.Modifier
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
+import androidx.navigation.NavController
+import androidx.navigation.compose.rememberNavController
 
 @Composable
-fun ReposScreen(modifier: Modifier = Modifier){
+fun ReposScreen(navController: NavController){
     val repoViewModel: MainViewModel = viewModel()
     val viewState by repoViewModel.reposState
+
+
 
     Box(modifier = Modifier.fillMaxSize()){
         when{
@@ -41,7 +47,7 @@ fun ReposScreen(modifier: Modifier = Modifier){
             }
             else -> {
                 // Display Repos
-                ReposScreen(repos = viewState.list)
+                ReposScreen(repos = viewState.list, navController)
             }
         }
     }
@@ -50,17 +56,25 @@ fun ReposScreen(modifier: Modifier = Modifier){
 
 
 @Composable
-fun ReposScreen(repos: List<Repos>){
-    LazyColumn(
-        modifier = Modifier
-            .fillMaxSize()
-            .padding(8.dp)
-    ){
-        items(repos){
-            repo ->
-            RepoItem(repo = repo)
-        }
+fun ReposScreen(repos: List<Repos>, navController: NavController){
+    Column(
 
+    ) {
+        Button(onClick = { navController.navigate(Screen.Languages.route) }) {
+            Text(text = "Languages")
+        }
+        TextField(value = "", onValueChange = {})
+        LazyColumn(
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(8.dp)
+        ){
+            items(repos){
+                    repo ->
+                RepoItem(repo = repo)
+            }
+
+        }
     }
 }
 
@@ -76,7 +90,9 @@ fun RepoItem(repo: Repos){
     ) {
         Row(
             horizontalArrangement = Arrangement.SpaceBetween,
-            modifier = Modifier.fillMaxWidth().padding(8.dp)
+            modifier = Modifier
+                .fillMaxWidth()
+                .padding(8.dp)
         ) {
             Column(
                 modifier = Modifier.fillMaxHeight()
@@ -96,5 +112,5 @@ fun RepoItem(repo: Repos){
 @Composable
 fun Preview(){
     val previewRepoList: List<Repos> = listOf(Repos("name1", "language1"), Repos("name2", "language2"))
-    ReposScreen(previewRepoList)
+    //ReposScreen(previewRepoList)
 }
