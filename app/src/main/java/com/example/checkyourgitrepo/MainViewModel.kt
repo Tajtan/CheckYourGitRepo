@@ -2,7 +2,9 @@ package com.example.checkyourgitrepo
 
 import android.util.Log
 import androidx.compose.runtime.State
+import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.setValue
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.launch
@@ -10,27 +12,37 @@ import kotlinx.coroutines.launch
 
 class MainViewModel: ViewModel() {
 
-    //var username: String = "Tajtan"
-
     private val _reposState = mutableStateOf(ReposState())
     val reposState: State<ReposState> = _reposState
 
     private val _languagesState = mutableStateOf(LanguageState())
     val languageState: State<LanguageState> = _languagesState
 
+    var username by mutableStateOf("Tajtan")
+
+    fun onUsernameChanged(newString: String){
+        username = newString
+    }
 
     init {
         fetchRepos()
-        fetchLanguages()
+        //fetchLanguages()
     }
 
 
-    private fun fetchRepos(){
+    fun fetchRepos(){
         viewModelScope.launch {
             try {
-                val response = repoService.getRepos()
+                val initialResponse = repoService.getRepos(username)
+                val response = initialResponse.map { repo ->
+                    if (repo.language == null) {
+                        repo.copy(language = "No languages listed")
+                    } else {
+                        repo
+                    }
+                }
                 _reposState.value = _reposState.value.copy(
-                    list = response.filter { it.language != null },
+                    list = response,
                     loading = false,
                     error = null
                 )
@@ -46,7 +58,7 @@ class MainViewModel: ViewModel() {
         }
     }
 
-    private fun fetchLanguages(){
+    fun fetchLanguages(){
         viewModelScope.launch {
             try {
                 val response = repoService.getLanguages()
@@ -71,7 +83,7 @@ class MainViewModel: ViewModel() {
 
     data class ReposState(
         val loading: Boolean = true,
-        val list: List<Repos> = emptyList(),
+        val list: List<Repo> = emptyList(),
         val error: String? = null
     )
 

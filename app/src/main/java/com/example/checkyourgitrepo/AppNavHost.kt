@@ -14,12 +14,11 @@ sealed class Screen(val route: String){
 
 @Composable
 fun AppNavHost(
-    navController: NavHostController,
-    startDestination: String
+    navController: NavHostController = rememberNavController()
 ){
     NavHost(
         navController = navController,
-        startDestination = startDestination
+        startDestination = Screen.Repos.route
     ){
         composable(Screen.Repos.route){
             ReposScreen(navController)

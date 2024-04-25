@@ -1,8 +1,6 @@
 package com.example.checkyourgitrepo
 
-import com.google.gson.annotations.SerializedName
-
-data class Repos(
+data class Repo(
     val name: String,
     val language: String?
 )
