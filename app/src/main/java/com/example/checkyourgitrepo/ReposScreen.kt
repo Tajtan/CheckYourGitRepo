@@ -35,33 +35,16 @@ import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 
+
+
 @Composable
 fun ReposScreen(navController: NavController){
+
     val repoViewModel: MainViewModel = viewModel()
-    val viewState by repoViewModel.reposState
+    val repoState by repoViewModel.reposState
 
 
 
-    Box(modifier = Modifier.fillMaxSize()){
-        when{
-            viewState.loading -> {
-                CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
-            }
-            viewState.error != null -> {
-                Text(text = "Error occurred")
-            }
-            else -> {
-                // Display Repos
-                ReposScreen(repos = viewState.list, navController, repoViewModel)
-            }
-        }
-    }
-}
-
-
-
-@Composable
-fun ReposScreen(repos: List<Repo>, navController: NavController, repoViewModel: MainViewModel){
     Column(
 
     ) {
@@ -98,16 +81,28 @@ fun ReposScreen(repos: List<Repo>, navController: NavController, repoViewModel: 
             }
         )
 
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp)
-        ){
-            items(repos){
-                    repo ->
-                RepoItem(repo = repo)
+        Box(modifier = Modifier.fillMaxSize()){
+            when{
+                repoState.loading -> {
+                    CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
+                }
+                repoState.error != null -> {
+                    Text(text = "Error occurred")
+                }
+                else -> {
+                    // Display Repos
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(8.dp)
+                    ){
+                        items(repoState.list){
+                                repo ->
+                            RepoItem(repo = repo)
+                        }
+                    }
+                }
             }
-
         }
     }
 }
@@ -141,6 +136,8 @@ fun RepoItem(repo: Repo){
         }
     }
 }
+
+
 
 @Preview
 @Composable
