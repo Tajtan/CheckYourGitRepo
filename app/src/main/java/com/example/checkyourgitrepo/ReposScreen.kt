@@ -42,14 +42,14 @@ fun ReposScreen(navController: NavController){
 
     val repoViewModel: MainViewModel = viewModel()
     val repoState by repoViewModel.reposState
-    val test: String = "test"
+    val repo: String = "TEST"
 
 
 
     Column(
 
     ) {
-        Button(onClick = { navController.navigate(Screen.Languages.route) }) {
+        Button(onClick = { navController.navigate(Screen.Languages.route + "/$repo") }) {
             Text(text = "Languages")
         }
 

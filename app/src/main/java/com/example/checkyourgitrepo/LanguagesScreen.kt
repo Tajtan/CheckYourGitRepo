@@ -17,7 +17,7 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 
 @Composable
-fun LanguagesScreen(navController: NavController){
+fun LanguagesScreen(navController: NavController, repo: String){
     val languageViewModel: MainViewModel = viewModel()
     val languageState by languageViewModel.languageState
 
@@ -37,6 +37,7 @@ fun LanguagesScreen(navController: NavController){
 
                 ) {
                     Text(text = "repo name placeholder")
+                    Text(text = repo)
                     LazyColumn(
                         modifier = Modifier
                             .fillMaxSize()
