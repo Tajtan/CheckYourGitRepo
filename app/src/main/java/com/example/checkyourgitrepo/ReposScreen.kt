@@ -42,6 +42,7 @@ fun ReposScreen(navController: NavController){
 
     val repoViewModel: MainViewModel = viewModel()
     val repoState by repoViewModel.reposState
+    val test: String = "test"
 
 
 

@@ -19,45 +19,40 @@ import androidx.navigation.NavController
 @Composable
 fun LanguagesScreen(navController: NavController){
     val languageViewModel: MainViewModel = viewModel()
-    val viewState by languageViewModel.languageState
+    val languageState by languageViewModel.languageState
+
+    languageViewModel.fetchLanguages()
 
     Box(modifier = Modifier.fillMaxSize()){
         when{
-            viewState.loading -> {
+            languageState.loading -> {
                 CircularProgressIndicator(modifier = Modifier.align(Alignment.Center))
             }
-            viewState.error != null -> {
+            languageState.error != null -> {
                 Text(text = "Error occurred")
             }
             else -> {
                 // Display Languages
-                LanguagesScreen(languages = viewState.list)
+                Column(
 
+                ) {
+                    Text(text = "repo name placeholder")
+                    LazyColumn(
+                        modifier = Modifier
+                            .fillMaxSize()
+                            .padding(8.dp)
+                    ){
+                        items(languageState.list){
+                                language ->
+                            LanguageItem(language = language)
+                        }
+                    }
+                }
             }
         }
     }
 }
 
-@Composable
-fun LanguagesScreen(languages: List<Language>){
-    Column(
-        
-    ) {
-        Text(text = "repo name placeholder")
-        LazyColumn(
-            modifier = Modifier
-                .fillMaxSize()
-                .padding(8.dp)
-        ){
-            items(languages){
-                    language ->
-                LanguageItem(language = language)
-            }
-        }
-        
-    }
-
-}
 
 @Composable
 fun LanguageItem(language: Language){
