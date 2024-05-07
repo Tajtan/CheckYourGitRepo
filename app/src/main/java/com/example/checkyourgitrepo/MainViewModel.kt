@@ -24,6 +24,8 @@ class MainViewModel: ViewModel() {
         username = newString
     }
 
+    var searchedUsername = ""
+
     init {
         //fetchRepos()
         //fetchLanguages()
@@ -60,10 +62,10 @@ class MainViewModel: ViewModel() {
         }
     }
 
-    fun fetchLanguages(){
+    fun fetchLanguages(repo: String, username: String){
         viewModelScope.launch {
             try {
-                val response = repoService.getLanguages()
+                val response = repoService.getLanguages(username, repo)
                 //Log.e("languageResponse", response.toString())
                 _languagesState.value = _languagesState.value.copy(
                     list = response.map { (Language(it.key, it.value)) },

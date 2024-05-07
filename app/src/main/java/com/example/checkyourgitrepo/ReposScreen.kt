@@ -69,6 +69,7 @@ fun ReposScreen(navController: NavController){
             keyboardActions = KeyboardActions(
                 onSearch = {
                     repoViewModel.fetchRepos()
+                    repoViewModel.searchedUsername = repoViewModel.username
                 }
             ),
             trailingIcon = {
@@ -99,7 +100,7 @@ fun ReposScreen(navController: NavController){
                     ){
                         items(repoState.list){
                                 repo ->
-                            RepoItem(repo = repo)
+                            RepoItem(repo = repo, navController, username = repoViewModel.searchedUsername)
                         }
                     }
                 }
@@ -110,7 +111,7 @@ fun ReposScreen(navController: NavController){
 
 
 @Composable
-fun RepoItem(repo: Repo){
+fun RepoItem(repo: Repo, navController: NavController, username: String){
     Card(
         modifier = Modifier
             .fillMaxWidth()
@@ -131,7 +132,11 @@ fun RepoItem(repo: Repo){
                 Text(text = repo.language!!)
             }
 
-            IconButton(onClick = { /*TODO*/ }) {
+            IconButton(onClick = {
+                //TODO no languages exception
+                //TODO I think change username to only change when pressing SEARCH (username might be what is inside outlined text field)
+                navController.navigate(Screen.Languages.route + "/${repo.name}/$username")
+            }) {
                 Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = "To repo")
             }
         }

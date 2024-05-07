@@ -20,7 +20,10 @@ interface ApiService{
     suspend fun getRepos(@Path("username") username: String): List<Repo>
 
 
-    @GET("repos/Tajtan/Codewars/languages")
-    suspend fun getLanguages(): Map<String, Int>
+    @GET("repos/{username}/{repo}/languages")
+    suspend fun getLanguages(
+        @Path("username") username: String,
+        @Path("repo") repo: String
+    ): Map<String, Int>
 
 }

@@ -26,9 +26,14 @@ fun AppNavHost(
             ReposScreen(navController)
         }
         composable(
-            Screen.Languages.route + "/{repo}",
+            Screen.Languages.route + "/{repo}/{username}",
             arguments = listOf(
                 navArgument("repo"){
+                    type = NavType.StringType
+                    defaultValue = ""
+                    nullable = false
+                },
+                navArgument("username"){
                     type = NavType.StringType
                     defaultValue = ""
                     nullable = false
@@ -36,7 +41,8 @@ fun AppNavHost(
             )
         ){
             val repo = it.arguments?.getString("repo") ?: ""
-            LanguagesScreen(navController, repo = repo)
+            val username = it.arguments?.getString("username") ?: ""
+            LanguagesScreen(navController, repo = repo, username = username)
         }
     }
 }

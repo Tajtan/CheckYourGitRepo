@@ -1,5 +1,6 @@
 package com.example.checkyourgitrepo
 
+import android.util.Log
 import androidx.compose.foundation.layout.Box
 import androidx.compose.foundation.layout.Column
 import androidx.compose.foundation.layout.fillMaxSize
@@ -17,11 +18,14 @@ import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
 
 @Composable
-fun LanguagesScreen(navController: NavController, repo: String){
+fun LanguagesScreen(navController: NavController, repo: String, username: String){
     val languageViewModel: MainViewModel = viewModel()
     val languageState by languageViewModel.languageState
 
-    languageViewModel.fetchLanguages()
+    Log.e("username", username)
+    Log.e("repo", repo)
+
+    languageViewModel.fetchLanguages(repo, username)
 
     Box(modifier = Modifier.fillMaxSize()){
         when{
