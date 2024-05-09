@@ -15,7 +15,6 @@ import androidx.compose.foundation.text.KeyboardOptions
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.Clear
 import androidx.compose.material.icons.filled.KeyboardArrowRight
-import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
@@ -29,12 +28,10 @@ import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.text.input.ImeAction
 import androidx.compose.ui.text.input.KeyboardType
-import androidx.compose.ui.text.input.TextFieldValue
 import androidx.compose.ui.tooling.preview.Preview
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.viewmodel.compose.viewModel
 import androidx.navigation.NavController
-
 
 
 @Composable
@@ -42,19 +39,10 @@ fun ReposScreen(navController: NavController){
 
     val repoViewModel: MainViewModel = viewModel()
     val repoState by repoViewModel.reposState
-    val repo: String = "TEST"
-
-
 
     Column(
 
     ) {
-        Button(onClick = { navController.navigate(Screen.Languages.route + "/$repo") }) {
-            Text(text = "Languages")
-        }
-
-
-
         OutlinedTextField(
             value = repoViewModel.username,
             label = { Text(text = "Github username")},
@@ -129,12 +117,15 @@ fun RepoItem(repo: Repo, navController: NavController, username: String){
                 modifier = Modifier.fillMaxHeight()
             ) {
                 Text(text = repo.name)
-                Text(text = repo.language!!)
+                if(repo.language == "No languages listed") {
+                    Text(text = repo.language)
+                } else {
+                    Text(text = "Mostly: ${repo.language}")
+                }
             }
 
             IconButton(onClick = {
                 //TODO no languages exception
-                //TODO I think change username to only change when pressing SEARCH (username might be what is inside outlined text field)
                 navController.navigate(Screen.Languages.route + "/${repo.name}/$username")
             }) {
                 Icon(imageVector = Icons.Default.KeyboardArrowRight, contentDescription = "To repo")

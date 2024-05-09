@@ -26,11 +26,6 @@ class MainViewModel: ViewModel() {
 
     var searchedUsername = ""
 
-    init {
-        //fetchRepos()
-        //fetchLanguages()
-    }
-
 
     fun fetchRepos(){
         viewModelScope.launch {
